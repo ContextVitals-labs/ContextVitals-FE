@@ -17,7 +17,7 @@ your ChatGPT or Claude conversation and estimates how much "context pressure"
 it's under, so you know when it's time to start a new chat (and what to carry
 over when you do).
 
-**Live site:** https://contextvitals-labs.github.io/ContextVitals-FE/
+**Live site:** not deployed yet — see [Deployment](#deployment) below.
 **Get the extension:** https://github.com/ContextVitals-labs/ContextVitals-Extension
 
 The page is available in **English, Korean, and Chinese** — use the language
@@ -53,6 +53,18 @@ assets/main.js      language detection/switching only
 
 To preview locally, just open `index.html` in a browser, or serve the folder
 with any static file server (e.g. `npx serve .`).
+
+## Deployment
+
+This repo is **private**, and GitHub Pages for private repositories requires
+a paid GitHub plan (Team/Enterprise) — the free plan only serves Pages from
+public repos. Nothing is deployed yet. Options once you're ready:
+
+- Make this repo public and turn on Pages (Settings → Pages → deploy from
+  `main` / `/`) — free, but the source becomes public too.
+- Deploy to Vercel/Netlify/Cloudflare Pages instead — all three support
+  private-repo deploys on their free tiers.
+- Upgrade the GitHub org plan and use Pages as-is.
 
 Commit, branch, and translation conventions are documented in
 [`docs/CONVENTIONS.md`](docs/CONVENTIONS.md) — read it before adding new copy,
