@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ContextVitals — Know when your AI conversation needs a fresh start</title>
+<meta name="description" content="ContextVitals is a Chrome extension that estimates the context health of long ChatGPT and Claude conversations, entirely on your device." />
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+<link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png" />
+<link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="brand" href="#top">
+      <img src="assets/logo-nav.png" alt="" width="28" height="28" />
+      <span>ContextVitals</span>
+    </a>
+
+    <nav class="site-nav" aria-label="Primary">
+      <a href="#features" data-i18n="nav.features">How it works</a>
+      <a href="#privacy" data-i18n="nav.privacy">Privacy</a>
+      <a href="#roadmap" data-i18n="nav.roadmap">Roadmap</a>
+      <a href="https://github.com/ContextVitals-labs/ContextVitals-Extension" data-i18n="nav.github">GitHub</a>
+    </nav>
+
+    <div class="header-actions">
+      <div class="lang-switch" role="group" aria-label="Language">
+        <button type="button" data-lang="en">EN</button>
+        <button type="button" data-lang="ko">KO</button>
+        <button type="button" data-lang="zh">中文</button>
+      </div>
+      <a class="btn btn-primary btn-small" href="https://github.com/ContextVitals-labs/ContextVitals-Extension/releases/latest" data-i18n="nav.cta">Get the extension</a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+  <section class="hero" id="top">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow" data-i18n="hero.eyebrow">Chrome Extension</p>
+        <h1 data-i18n="hero.title">Know when your AI conversation needs a fresh start.</h1>
+        <p class="hero-subtitle" data-i18n="hero.subtitle">
+          ContextVitals reads the ChatGPT or Claude conversation you're already in and estimates how much
+          context pressure it's under — before the model starts losing track.
+        </p>
+        <div class="hero-ctas">
+          <a class="btn btn-primary" href="https://github.com/ContextVitals-labs/ContextVitals-Extension/releases/latest" data-i18n="hero.ctaPrimary">Download for Chrome</a>
+          <a class="btn btn-ghost" href="https://github.com/ContextVitals-labs/ContextVitals-Extension" data-i18n="hero.ctaSecondary">View on GitHub</a>
+        </div>
+      </div>
+
+      <div class="hero-visual" aria-hidden="true">
+        <div class="mock-panel">
+          <div class="mock-panel-header">
+            <span class="mock-brand"><img src="assets/logo-nav.png" alt="" width="16" height="16" /> ContextVitals</span>
+          </div>
+          <div class="mock-grade-row">
+            <span class="mock-score">72</span>
+            <span class="mock-grade" data-i18n="hero.mockGrade">Moderate</span>
+          </div>
+          <div class="mock-stats">
+            <div><span data-i18n="hero.mockMessages">Messages</span><b>146</b></div>
+            <div><span data-i18n="hero.mockTokens">Est. Tokens</span><b>~84k</b></div>
+            <div><span data-i18n="hero.mockUsage">Est. Usage</span><b>66%</b></div>
+          </div>
+        </div>
+        <p class="hero-visual-note" data-i18n="hero.mockNote">Every number is labeled as an estimate — always.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section problem">
+    <div class="wrap">
+      <p class="eyebrow" data-i18n="problem.eyebrow">The problem</p>
+      <h2 data-i18n="problem.title">Long conversations quietly degrade.</h2>
+      <div class="grid-4">
+        <div class="problem-card">
+          <h3 data-i18n="problem.item1.title">Early instructions fade</h3>
+          <p data-i18n="problem.item1.desc">The rules you set at the start stop being followed as the conversation grows.</p>
+        </div>
+        <div class="problem-card">
+          <h3 data-i18n="problem.item2.title">Important context gets buried</h3>
+          <p data-i18n="problem.item2.desc">Key details get lost under everything that came after them.</p>
+        </div>
+        <div class="problem-card">
+          <h3 data-i18n="problem.item3.title">Answers start contradicting earlier ones</h3>
+          <p data-i18n="problem.item3.desc">The model disagrees with a decision it already made.</p>
+        </div>
+        <div class="problem-card">
+          <h3 data-i18n="problem.item4.title">There's no clear signal to start over</h3>
+          <p data-i18n="problem.item4.desc">Message count alone doesn't tell you when a conversation has gone stale.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="features">
+    <div class="wrap">
+      <p class="eyebrow" data-i18n="features.eyebrow">How it works</p>
+      <h2 data-i18n="features.title">One badge, four jobs</h2>
+      <div class="grid-4">
+        <div class="feature-card">
+          <span class="tag tag-live" data-i18n="features.tagLive">Live in v0.1</span>
+          <h3 data-i18n="features.f1.title">Context Meter</h3>
+          <p data-i18n="features.f1.desc">Live estimates of message count, token usage, and context window pressure, right on the page.</p>
+        </div>
+        <div class="feature-card">
+          <span class="tag tag-live" data-i18n="features.tagLive">Live in v0.1</span>
+          <h3 data-i18n="features.f2.title">Context Health Score</h3>
+          <p data-i18n="features.f2.desc">A single 0–100 risk score. Token pressure is live today; instruction decay, topic drift, and contradiction risk are landing in upcoming versions.</p>
+        </div>
+        <div class="feature-card feature-card-soon">
+          <span class="tag tag-soon" data-i18n="features.tagSoon">Coming soon</span>
+          <h3 data-i18n="features.f3.title">New Session Alerts</h3>
+          <p data-i18n="features.f3.desc">A quiet nudge once risk crosses into High Risk — not a popup for every message.</p>
+        </div>
+        <div class="feature-card feature-card-soon">
+          <span class="tag tag-soon" data-i18n="features.tagSoon">Coming soon</span>
+          <h3 data-i18n="features.f4.title">Context Handoff</h3>
+          <p data-i18n="features.f4.desc">Generates a continuation prompt — goals, decisions, and next steps — so you can carry the important parts into a fresh chat.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section score-section">
+    <div class="wrap">
+      <p class="eyebrow" data-i18n="score.eyebrow">The score</p>
+      <h2 data-i18n="score.title">Read it at a glance</h2>
+      <div class="score-bands">
+        <div class="score-band band-good">
+          <span class="band-range" data-i18n="score.band1.range">0–50</span>
+          <span class="band-label" data-i18n="score.band1.label">Good</span>
+          <p data-i18n="score.band1.desc">Plenty of room left.</p>
+        </div>
+        <div class="score-band band-moderate">
+          <span class="band-range" data-i18n="score.band2.range">51–70</span>
+          <span class="band-label" data-i18n="score.band2.label">Moderate</span>
+          <p data-i18n="score.band2.desc">Getting long — worth keeping an eye on.</p>
+        </div>
+        <div class="score-band band-high">
+          <span class="band-range" data-i18n="score.band3.range">71–85</span>
+          <span class="band-label" data-i18n="score.band3.label">High Risk</span>
+          <p data-i18n="score.band3.desc">Older instructions and context are under real pressure.</p>
+        </div>
+        <div class="score-band band-critical">
+          <span class="band-range" data-i18n="score.band4.range">86–100</span>
+          <span class="band-label" data-i18n="score.band4.label">New Session Recommended</span>
+          <p data-i18n="score.band4.desc">Time to start fresh and carry the important parts over.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="privacy">
+    <div class="wrap">
+      <p class="eyebrow" data-i18n="privacy.eyebrow">Privacy</p>
+      <h2 data-i18n="privacy.title">Built to never see your conversation</h2>
+      <div class="grid-3">
+        <div class="privacy-card">
+          <h3 data-i18n="privacy.p1.title">Everything runs on your device</h3>
+          <p data-i18n="privacy.p1.desc">Parsing, scoring, and estimates all happen locally in the browser — nothing about your conversation is sent anywhere.</p>
+        </div>
+        <div class="privacy-card">
+          <h3 data-i18n="privacy.p2.title">No account, no server</h3>
+          <p data-i18n="privacy.p2.desc">ContextVitals has no backend that your chats pass through.</p>
+        </div>
+        <div class="privacy-card">
+          <h3 data-i18n="privacy.p3.title">Every number says "estimated"</h3>
+          <p data-i18n="privacy.p3.desc">ContextVitals can't see a model's real internal context state, so it never claims to — only ever estimates.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="roadmap">
+    <div class="wrap">
+      <p class="eyebrow" data-i18n="roadmap.eyebrow">Status</p>
+      <h2 data-i18n="roadmap.title">Where it stands today</h2>
+      <div class="grid-2 roadmap-grid">
+        <div class="roadmap-card roadmap-now">
+          <h3 data-i18n="roadmap.nowTitle">Available now — v0.1</h3>
+          <ul>
+            <li data-i18n="roadmap.now1">ChatGPT and Claude support</li>
+            <li data-i18n="roadmap.now2">Message count and token estimates</li>
+            <li data-i18n="roadmap.now3">Context Health badge</li>
+          </ul>
+        </div>
+        <div class="roadmap-card">
+          <h3 data-i18n="roadmap.nextTitle">Coming next</h3>
+          <ul>
+            <li data-i18n="roadmap.next1">Instruction decay and topic drift signals</li>
+            <li data-i18n="roadmap.next2">New-session alerts and Context Handoff</li>
+            <li data-i18n="roadmap.next3">Gemini and Perplexity support</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section cta-band">
+    <div class="wrap cta-band-inner">
+      <h2 data-i18n="cta.title">Try it on your next long conversation.</h2>
+      <a class="btn btn-primary" href="https://github.com/ContextVitals-labs/ContextVitals-Extension/releases/latest" data-i18n="cta.button">Download for Chrome</a>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <div class="footer-brand">
+      <span class="brand"><img src="assets/logo-nav.png" alt="" width="20" height="20" /> ContextVitals</span>
+      <p data-i18n="footer.tagline">Know when your AI conversation needs a fresh start.</p>
+    </div>
+    <div class="footer-links">
+      <a href="https://github.com/ContextVitals-labs/ContextVitals-Extension" data-i18n="footer.linkRepo">Extension repo</a>
+      <a href="https://github.com/ContextVitals-labs/ContextVitals-Extension/releases" data-i18n="footer.linkReleases">Releases</a>
+      <a href="https://github.com/ContextVitals-labs/ContextVitals-FE" data-i18n="footer.linkFe">Landing page source</a>
+    </div>
+  </div>
+  <div class="wrap footer-bottom">
+    <p data-i18n="footer.note">All figures shown by ContextVitals are estimates.</p>
+    <p data-i18n="footer.copyright">© 2026 ContextVitals Labs</p>
+  </div>
+</footer>
+
+<script src="assets/i18n.js"></script>
+<script src="assets/main.js"></script>
+</body>
+</html>
