@@ -123,9 +123,46 @@
     });
   }
 
+  /** Sticky header picks up a shadow once the page has actually scrolled. */
+  function initHeaderScrollShadow() {
+    var header = document.querySelector(".site-header");
+    if (!header) return;
+
+    function update() {
+      header.classList.toggle("is-scrolled", window.scrollY > 8);
+    }
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+  }
+
+  /** The hero mock panel's score counts up from 0 once on load — a small,
+      literal echo of the product itself computing a live number, rather
+      than a number that's just always been sitting there. */
+  function initScoreCountUp() {
+    var el = document.querySelector(".mock-score");
+    if (!el || REDUCE_MOTION) return;
+    var target = parseInt(el.textContent, 10);
+    if (isNaN(target)) return;
+
+    var duration = 1100;
+    var start = null;
+
+    function step(timestamp) {
+      if (start === null) start = timestamp;
+      var progress = Math.min(1, (timestamp - start) / duration);
+      var eased = 1 - Math.pow(1 - progress, 3);
+      el.textContent = Math.round(target * eased);
+      if (progress < 1) requestAnimationFrame(step);
+      else el.textContent = String(target);
+    }
+    requestAnimationFrame(step);
+  }
+
   document.addEventListener("DOMContentLoaded", function () {
     applyLang(detectDefaultLang());
     initLangToggle();
     initScrollReveal();
+    initHeaderScrollShadow();
+    initScoreCountUp();
   });
 })();

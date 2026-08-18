@@ -139,7 +139,9 @@ p { margin: 0; }
   background: color-mix(in srgb, var(--bg) 85%, transparent);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--line);
+  transition: box-shadow 0.25s ease, border-color 0.25s ease;
 }
+.site-header.is-scrolled { box-shadow: var(--shadow); border-bottom-color: transparent; }
 .header-inner { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 14px 24px; }
 .brand { display: flex; align-items: center; gap: 8px; font-weight: 800; font-size: 15.5px; text-decoration: none; color: var(--ink); }
 .site-nav { display: flex; gap: 24px; }
@@ -288,6 +290,22 @@ p { margin: 0; }
   .hero-monitor { padding: 40px 22px; }
 }
 
+/* Hero content is always above the fold, so it plays once on page load
+   instead of waiting on the scroll observer — a short staggered rise reads
+   as the monitor "booting up" rather than the whole hero just appearing. */
+@keyframes hero-rise {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.hero-copy .eyebrow, .hero-copy h1, .hero-subtitle, .hero-ctas, .hero-visual {
+  animation: hero-rise 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.hero-copy .eyebrow { animation-delay: 0.05s; }
+.hero-copy h1 { animation-delay: 0.15s; }
+.hero-subtitle { animation-delay: 0.32s; }
+.hero-ctas { animation-delay: 0.46s; }
+.hero-visual { animation-delay: 0.3s; }
+
 /* ---------- pulse trace (shared signature device) ---------- */
 .pulse-svg { display: block; width: 100%; height: 100%; }
 .pulse-path-base {
@@ -309,20 +327,55 @@ p { margin: 0; }
 .brand-pulse { width: 22px; height: 14px; flex-shrink: 0; }
 .brand-pulse .pulse-path-base, .brand-pulse .pulse-path-trace { stroke: var(--brand-blue); }
 
-/* ---------- reveal-on-scroll ---------- */
+/* ---------- reveal-on-scroll ----------
+   A spring-out curve (slight overshoot) reads livelier than linear/ease for
+   a short UI-sized move, and a bit more travel + scale makes the reveal
+   register as a real entrance rather than a faint opacity blend. Grid
+   children alternate a small sideways offset so a row of cards converges
+   from both sides instead of every item rising in an identical straight line. */
 [data-reveal] {
-  opacity: 0; transform: translateY(14px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
+  opacity: 0; transform: translateY(26px) scale(0.97);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 }
-[data-reveal].is-visible { opacity: 1; transform: translateY(0); }
+[data-reveal].is-visible { opacity: 1; transform: translateY(0) scale(1); }
 [data-reveal="stagger"] > * {
-  opacity: 0; transform: translateY(14px);
-  transition: opacity 0.5s ease, transform 0.5s ease;
+  opacity: 0; transform: translateY(26px) scale(0.96);
+  transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
 }
-[data-reveal="stagger"].is-visible > * { opacity: 1; transform: translateY(0); }
-[data-reveal="stagger"].is-visible > *:nth-child(2) { transition-delay: 0.06s; }
-[data-reveal="stagger"].is-visible > *:nth-child(3) { transition-delay: 0.12s; }
-[data-reveal="stagger"].is-visible > *:nth-child(4) { transition-delay: 0.18s; }
+[data-reveal="stagger"] > *:nth-child(odd) { transform: translateY(26px) translateX(-12px) scale(0.96); }
+[data-reveal="stagger"] > *:nth-child(even) { transform: translateY(26px) translateX(12px) scale(0.96); }
+[data-reveal="stagger"].is-visible > * { opacity: 1; transform: translateY(0) translateX(0) scale(1); }
+[data-reveal="stagger"].is-visible > *:nth-child(1) { transition-delay: 0.02s; }
+[data-reveal="stagger"].is-visible > *:nth-child(2) { transition-delay: 0.1s; }
+[data-reveal="stagger"].is-visible > *:nth-child(3) { transition-delay: 0.18s; }
+[data-reveal="stagger"].is-visible > *:nth-child(4) { transition-delay: 0.26s; }
+[data-reveal="stagger"].is-visible > *:nth-child(5) { transition-delay: 0.34s; }
+[data-reveal="stagger"].is-visible > *:nth-child(6) { transition-delay: 0.42s; }
+
+/* The gauge "fills in" left to right on reveal, zone by zone — a wipe
+   instead of a fade makes the one genuinely new visual (a proportional
+   scale, not a card) feel earned rather than just appearing. */
+.gauge[data-reveal] .gauge-zone { transform: scaleX(0); transform-origin: left center; transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1); }
+.gauge[data-reveal].is-visible .gauge-zone { transform: scaleX(1); }
+.gauge[data-reveal].is-visible .gauge-zone:nth-child(1) { transition-delay: 0.05s; }
+.gauge[data-reveal].is-visible .gauge-zone:nth-child(2) { transition-delay: 0.28s; }
+.gauge[data-reveal].is-visible .gauge-zone:nth-child(3) { transition-delay: 0.44s; }
+.gauge[data-reveal].is-visible .gauge-zone:nth-child(4) { transition-delay: 0.56s; }
+.gauge[data-reveal] .gauge-scale { opacity: 0; transition: opacity 0.4s ease 0.7s; }
+.gauge[data-reveal].is-visible .gauge-scale { opacity: 1; }
+
+/* Score-band dots pop in with a small overshoot just after their row lands. */
+@keyframes dot-pop {
+  0% { transform: scale(0); }
+  55% { transform: scale(1.35); }
+  100% { transform: scale(1); }
+}
+[data-reveal="stagger"].is-visible .score-band-dot {
+  animation: dot-pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.25s both;
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal="stagger"].is-visible .score-band-dot { animation: none; }
+}
 
 /* ---------- section divider (pulse trace instead of a plain rule) ---------- */
 .divider { padding: 0; }
