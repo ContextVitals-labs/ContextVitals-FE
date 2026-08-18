@@ -7,6 +7,9 @@
 <meta name="description" content="ContextVitals is a Chrome extension that estimates the context health of long ChatGPT and Claude conversations, entirely on your device." />
 <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
 <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Unbounded:wght@500;700&display=swap" />
 <link rel="stylesheet" href="assets/styles.css" />
 </head>
 <body>
@@ -29,12 +32,18 @@
     </nav>
 
     <div class="header-actions">
-      <div class="lang-switch" role="group" aria-label="Language">
-        <button type="button" data-lang="en">EN</button>
-        <button type="button" data-lang="ko">KO</button>
-        <button type="button" data-lang="zh">中文</button>
+      <div class="lang-switch">
+        <button type="button" class="lang-toggle" aria-haspopup="menu" aria-expanded="false" aria-controls="lang-menu">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 .5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15Zm6.45 6.75h-2.68a11.6 11.6 0 0 0-.86-3.86 6.27 6.27 0 0 1 3.54 3.86ZM8 1.85c.62.86 1.36 2.33 1.56 4.15H6.44c.2-1.82.94-3.29 1.56-4.15ZM6.2 3.4a11.6 11.6 0 0 0-.86 3.86H2.66A6.27 6.27 0 0 1 6.2 3.4ZM2.66 8.75h2.68c.1 1.38.4 2.7.86 3.85a6.27 6.27 0 0 1-3.54-3.85ZM8 14.15c-.62-.86-1.36-2.32-1.56-4.15h3.12c-.2 1.83-.94 3.3-1.56 4.15Zm1.91-.55c.46-1.15.76-2.47.86-3.85h2.68a6.27 6.27 0 0 1-3.54 3.85Z" fill="currentColor"/></svg>
+          <span class="lang-toggle-current">EN</span>
+        </button>
+        <div class="lang-menu" id="lang-menu" role="menu" hidden>
+          <button type="button" role="menuitemradio" data-lang="en">English<svg class="lang-check" viewBox="0 0 16 16" aria-hidden="true"><path d="M13.5 4 6 12 2.5 8.4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          <button type="button" role="menuitemradio" data-lang="ko">한국어<svg class="lang-check" viewBox="0 0 16 16" aria-hidden="true"><path d="M13.5 4 6 12 2.5 8.4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          <button type="button" role="menuitemradio" data-lang="zh">中文<svg class="lang-check" viewBox="0 0 16 16" aria-hidden="true"><path d="M13.5 4 6 12 2.5 8.4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        </div>
       </div>
-      <a class="btn btn-primary btn-small" href="https://github.com/ContextVitals-labs/ContextVitals-Extension/releases/latest" data-i18n="nav.cta">Get the extension</a>
+      <a class="btn btn-solid btn-small" href="https://github.com/ContextVitals-labs/ContextVitals-Extension/releases/latest" data-i18n="nav.cta">Get the extension</a>
     </div>
   </div>
 </header>
@@ -44,6 +53,9 @@
   <section class="hero" id="top">
     <div class="wrap">
     <div class="hero-monitor">
+      <div class="hero-corner hero-corner-tl" aria-hidden="true"></div>
+      <div class="hero-corner hero-corner-br" aria-hidden="true"></div>
+      <span class="hero-live" data-i18n="hero.liveTag" aria-hidden="true">Live read</span>
       <div class="hero-trace" data-pulse="hero" data-pulse-height="32" aria-hidden="true"></div>
       <div class="hero-grid">
       <div class="hero-copy">
@@ -88,22 +100,34 @@
     <div class="wrap">
       <p class="eyebrow" data-i18n="problem.eyebrow">The problem</p>
       <h2 data-i18n="problem.title">Long conversations quietly degrade.</h2>
-      <div class="grid-4" data-reveal="stagger">
-        <div class="problem-card">
-          <h3 data-i18n="problem.item1.title">Early instructions fade</h3>
-          <p data-i18n="problem.item1.desc">The rules you set at the start stop being followed as the conversation grows.</p>
+      <div class="problem-log" data-reveal="stagger">
+        <div class="problem-row" style="--marker-color: var(--good)">
+          <div class="problem-row-marker" aria-hidden="true"></div>
+          <div>
+            <h3 data-i18n="problem.item1.title">Early instructions fade</h3>
+            <p data-i18n="problem.item1.desc">The rules you set at the start stop being followed as the conversation grows.</p>
+          </div>
         </div>
-        <div class="problem-card">
-          <h3 data-i18n="problem.item2.title">Important context gets buried</h3>
-          <p data-i18n="problem.item2.desc">Key details get lost under everything that came after them.</p>
+        <div class="problem-row" style="--marker-color: var(--moderate)">
+          <div class="problem-row-marker" aria-hidden="true"></div>
+          <div>
+            <h3 data-i18n="problem.item2.title">Important context gets buried</h3>
+            <p data-i18n="problem.item2.desc">Key details get lost under everything that came after them.</p>
+          </div>
         </div>
-        <div class="problem-card">
-          <h3 data-i18n="problem.item3.title">Answers start contradicting earlier ones</h3>
-          <p data-i18n="problem.item3.desc">The model disagrees with a decision it already made.</p>
+        <div class="problem-row" style="--marker-color: var(--high)">
+          <div class="problem-row-marker" aria-hidden="true"></div>
+          <div>
+            <h3 data-i18n="problem.item3.title">Answers start contradicting earlier ones</h3>
+            <p data-i18n="problem.item3.desc">The model disagrees with a decision it already made.</p>
+          </div>
         </div>
-        <div class="problem-card">
-          <h3 data-i18n="problem.item4.title">There's no clear signal to start over</h3>
-          <p data-i18n="problem.item4.desc">Message count alone doesn't tell you when a conversation has gone stale.</p>
+        <div class="problem-row" style="--marker-color: var(--critical)">
+          <div class="problem-row-marker" aria-hidden="true"></div>
+          <div>
+            <h3 data-i18n="problem.item4.title">There's no clear signal to start over</h3>
+            <p data-i18n="problem.item4.desc">Message count alone doesn't tell you when a conversation has gone stale.</p>
+          </div>
         </div>
       </div>
     </div>
@@ -117,14 +141,14 @@
       <h2 data-i18n="features.title">One badge, four jobs</h2>
       <div class="grid-4" data-reveal="stagger">
         <div class="feature-card">
-          <span class="tag tag-live" data-i18n="features.tagLive">Live in v0.1</span>
+          <span class="tag tag-live" data-i18n="features.tagLive">Live in v0.2</span>
           <h3 data-i18n="features.f1.title">Context Meter</h3>
           <p data-i18n="features.f1.desc">Live estimates of message count, token usage, and context window pressure, right on the page.</p>
         </div>
         <div class="feature-card">
-          <span class="tag tag-live" data-i18n="features.tagLive">Live in v0.1</span>
+          <span class="tag tag-live" data-i18n="features.tagLive">Live in v0.2</span>
           <h3 data-i18n="features.f2.title">Context Health Score</h3>
-          <p data-i18n="features.f2.desc">A single 0–100 risk score. Token pressure is live today; instruction decay, topic drift, and contradiction risk are landing in upcoming versions.</p>
+          <p data-i18n="features.f2.desc">A single 0–100 risk score, weighing token pressure, instruction decay, topic drift, contradiction risk, and complexity together.</p>
         </div>
         <div class="feature-card feature-card-soon">
           <span class="tag tag-soon" data-i18n="features.tagSoon">Coming soon</span>
@@ -146,28 +170,35 @@
     <div class="wrap">
       <p class="eyebrow" data-i18n="score.eyebrow">The score</p>
       <h2 data-i18n="score.title">Read it at a glance</h2>
+
+      <div class="gauge" aria-hidden="true">
+        <div class="gauge-track">
+          <div class="gauge-zone zone-good"></div>
+          <div class="gauge-zone zone-moderate"></div>
+          <div class="gauge-zone zone-high"></div>
+          <div class="gauge-zone zone-critical"></div>
+        </div>
+        <div class="gauge-scale"><span>0</span><span>50</span><span>70</span><span>85</span><span>100</span></div>
+      </div>
+
       <div class="score-bands" data-reveal="stagger">
         <div class="score-band band-good">
-          <div class="band-pulse" data-pulse="band-good" data-pulse-height="30" aria-hidden="true"></div>
-          <span class="band-range" data-i18n="score.band1.range">0–50</span>
+          <span class="score-band-dot" aria-hidden="true"></span><span class="band-range" data-i18n="score.band1.range">0–50</span>
           <span class="band-label" data-i18n="score.band1.label">Good</span>
           <p data-i18n="score.band1.desc">Plenty of room left.</p>
         </div>
         <div class="score-band band-moderate">
-          <div class="band-pulse" data-pulse="band-moderate" data-pulse-height="30" aria-hidden="true"></div>
-          <span class="band-range" data-i18n="score.band2.range">51–70</span>
+          <span class="score-band-dot" aria-hidden="true"></span><span class="band-range" data-i18n="score.band2.range">51–70</span>
           <span class="band-label" data-i18n="score.band2.label">Moderate</span>
           <p data-i18n="score.band2.desc">Getting long — worth keeping an eye on.</p>
         </div>
         <div class="score-band band-high">
-          <div class="band-pulse" data-pulse="band-high" data-pulse-height="30" aria-hidden="true"></div>
-          <span class="band-range" data-i18n="score.band3.range">71–85</span>
+          <span class="score-band-dot" aria-hidden="true"></span><span class="band-range" data-i18n="score.band3.range">71–85</span>
           <span class="band-label" data-i18n="score.band3.label">High Risk</span>
           <p data-i18n="score.band3.desc">Older instructions and context are under real pressure.</p>
         </div>
         <div class="score-band band-critical">
-          <div class="band-pulse" data-pulse="band-critical" data-pulse-height="30" aria-hidden="true"></div>
-          <span class="band-range" data-i18n="score.band4.range">86–100</span>
+          <span class="score-band-dot" aria-hidden="true"></span><span class="band-range" data-i18n="score.band4.range">86–100</span>
           <span class="band-label" data-i18n="score.band4.label">New Session Recommended</span>
           <p data-i18n="score.band4.desc">Time to start fresh and carry the important parts over.</p>
         </div>
@@ -181,7 +212,7 @@
     <div class="wrap">
       <p class="eyebrow" data-i18n="privacy.eyebrow">Privacy</p>
       <h2 data-i18n="privacy.title">Built to never see your conversation</h2>
-      <div class="grid-3" data-reveal="stagger">
+      <div class="privacy-list" data-reveal="stagger">
         <div class="privacy-card">
           <h3 data-i18n="privacy.p1.title">Everything runs on your device</h3>
           <p data-i18n="privacy.p1.desc">Parsing, scoring, and estimates all happen locally in the browser — nothing about your conversation is sent anywhere.</p>
@@ -206,18 +237,19 @@
       <h2 data-i18n="roadmap.title">Where it stands today</h2>
       <div class="grid-2 roadmap-grid" data-reveal="stagger">
         <div class="roadmap-card roadmap-now">
-          <h3 data-i18n="roadmap.nowTitle">Available now — v0.1</h3>
+          <h3 data-i18n="roadmap.nowTitle">Available now — v0.2</h3>
           <ul>
             <li data-i18n="roadmap.now1">ChatGPT and Claude support</li>
             <li data-i18n="roadmap.now2">Message count and token estimates</li>
-            <li data-i18n="roadmap.now3">Context Health badge</li>
+            <li data-i18n="roadmap.now3">Full Context Health score — token pressure, instruction decay, topic drift, contradiction risk, complexity</li>
+            <li data-i18n="roadmap.now4">English, Korean, and Chinese UI</li>
           </ul>
         </div>
         <div class="roadmap-card">
           <h3 data-i18n="roadmap.nextTitle">Coming next</h3>
           <ul>
-            <li data-i18n="roadmap.next1">Instruction decay and topic drift signals</li>
-            <li data-i18n="roadmap.next2">New-session alerts and Context Handoff</li>
+            <li data-i18n="roadmap.next1">New-session alerts and Context Handoff</li>
+            <li data-i18n="roadmap.next2">Smart Mode (bring your own API key for higher-accuracy analysis)</li>
             <li data-i18n="roadmap.next3">Gemini and Perplexity support</li>
           </ul>
         </div>
@@ -228,7 +260,7 @@
   <section class="section cta-band">
     <div class="wrap cta-band-inner">
       <h2 data-i18n="cta.title">Try it on your next long conversation.</h2>
-      <a class="btn btn-primary" href="https://github.com/ContextVitals-labs/ContextVitals-Extension/releases/latest" data-i18n="cta.button">Download for Chrome</a>
+      <a class="btn btn-solid" href="https://github.com/ContextVitals-labs/ContextVitals-Extension/releases/latest" data-i18n="cta.button">Download for Chrome</a>
     </div>
   </section>
 

@@ -1,17 +1,23 @@
 /* ContextVitals landing page — design tokens + layout.
-   Palette is grounded in the product mark: a blue-to-purple gradient chat
-   bubble with a teal "vitals" pulse. Semantic score colors (good/moderate/
-   high/critical) match the extension's own badge so the two surfaces read
-   as one product. */
+
+   The product is a vitals monitor for AI conversations, so the page is
+   built as one: a diagnostic-readout language (status LEDs, channel tags,
+   a monospace numeric voice, a continuous gauge instead of scorecards)
+   carried consistently from the header down to the footer, instead of a
+   generic SaaS card-grid template. Palette is grounded in the product
+   mark: a blue-to-purple gradient chat bubble with a teal "vitals" pulse —
+   kept as a rare, single accent rather than repeated on every button.
+   Semantic score colors (good/moderate/high/critical) match the
+   extension's own badge so the two surfaces read as one product. */
 
 :root {
-  --bg: #f6f7fb;
+  --bg: #f5f6fa;
   --surface: #ffffff;
-  --surface-2: #eef1f8;
-  --ink: #10131c;
-  --ink-muted: #5b6472;
+  --surface-2: #eceef6;
+  --ink: #11131c;
+  --ink-muted: #565f70;
   --ink-faint: #8890a0;
-  --line: #e1e5ef;
+  --line: #dfe3ee;
 
   --brand-blue: #3e6ff2;
   --brand-purple: #8b5cf6;
@@ -31,7 +37,12 @@
 
   --font-sans: "Pretendard Variable", Pretendard, -apple-system, "Segoe UI", "PingFang SC",
     "Microsoft YaHei", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
-  --font-mono: "SF Mono", "Cascadia Code", Consolas, "D2Coding", monospace;
+  /* Latin-only display face for headings — has no Hangul/Han glyphs, so ko/zh
+     text in the same element falls through to the Pretendard stack
+     automatically. That's intentional, not a bug: it keeps one consistent
+     CJK-safe body voice while giving English headlines real character. */
+  --font-display: "Unbounded", var(--font-sans);
+  --font-mono: "IBM Plex Mono", "SF Mono", "Cascadia Code", Consolas, "D2Coding", monospace;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -101,12 +112,25 @@ a:focus-visible, button:focus-visible {
 
 .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
 
-h1, h2, h3 { text-wrap: balance; letter-spacing: -0.01em; font-weight: 800; margin: 0; }
+h1, h2, h3 { text-wrap: balance; letter-spacing: -0.01em; margin: 0; }
+h1, h2 { font-family: var(--font-display); font-weight: 700; }
+h3 { font-weight: 800; }
 p { margin: 0; }
 
+/* A "channel tag" instead of a generic uppercase eyebrow label — the small
+   lit dot reads as a status LED, tying every section heading back to the
+   monitor metaphor instead of decorating it for its own sake. */
 .eyebrow {
-  font-size: 12.5px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
-  color: var(--brand-blue); margin: 0 0 10px;
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--font-mono); font-size: 12px; font-weight: 600;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--ink-faint); margin: 0 0 12px;
+}
+.eyebrow::before {
+  content: ""; width: 7px; height: 7px; border-radius: 50%;
+  background: var(--brand-teal);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand-teal) 20%, transparent);
+  flex-shrink: 0;
 }
 
 /* ---------- header ---------- */
@@ -123,20 +147,45 @@ p { margin: 0; }
 .site-nav a:hover { color: var(--ink); }
 .header-actions { display: flex; align-items: center; gap: 14px; }
 
-.lang-switch { display: flex; border: 1px solid var(--line); border-radius: 999px; padding: 2px; gap: 2px; }
-.lang-switch button {
-  border: none; background: none; font: inherit; font-size: 12.5px; font-weight: 700;
-  color: var(--ink-muted); padding: 5px 10px; border-radius: 999px; cursor: pointer;
+.lang-switch { position: relative; }
+.lang-toggle {
+  display: flex; align-items: center; gap: 6px;
+  border: 1px solid var(--line); background: none; border-radius: 999px;
+  padding: 7px 12px; font: inherit; font-size: 12.5px; font-weight: 700;
+  color: var(--ink-muted); cursor: pointer; transition: border-color 0.15s ease, color 0.15s ease;
 }
-.lang-switch button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+.lang-toggle:hover { border-color: var(--brand-blue); color: var(--ink); }
+.lang-toggle svg { width: 14px; height: 14px; flex-shrink: 0; }
+.lang-toggle-current { min-width: 2ch; text-align: left; }
+
+.lang-menu {
+  position: absolute; top: calc(100% + 8px); right: 0; z-index: 30;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 12px;
+  padding: 6px; box-shadow: var(--shadow); min-width: 152px;
+}
+.lang-menu[hidden] { display: none; }
+.lang-menu button {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px; width: 100%;
+  border: none; background: none; font: inherit; font-size: 13.5px; font-weight: 600; color: var(--ink);
+  padding: 8px 10px; border-radius: 8px; cursor: pointer; text-align: left;
+}
+.lang-menu button:hover { background: var(--surface-2); }
+.lang-menu button[aria-checked="true"] { color: var(--brand-blue); }
+.lang-check { width: 14px; height: 14px; flex-shrink: 0; opacity: 0; color: var(--brand-blue); }
+.lang-menu button[aria-checked="true"] .lang-check { opacity: 1; }
 
 .btn {
   display: inline-flex; align-items: center; justify-content: center;
   font-weight: 700; font-size: 14.5px; text-decoration: none; border-radius: 10px;
   padding: 11px 20px; border: 1px solid transparent; white-space: nowrap;
 }
+/* The gradient is spent in exactly one place: the hero's primary CTA. Every
+   other button (nav, final CTA band) is solid — a repeated gradient pill on
+   every button is one of the more obvious templated-SaaS tells. */
 .btn-primary { background: var(--brand-gradient); color: #fff; }
 .btn-primary:hover { filter: brightness(1.06); }
+.btn-solid { background: var(--brand-blue); color: #fff; }
+.btn-solid:hover { filter: brightness(1.08); }
 .btn-ghost { border-color: var(--line); color: var(--ink); }
 .btn-ghost:hover { border-color: var(--brand-blue); color: var(--brand-blue); }
 .btn-small { padding: 8px 14px; font-size: 13px; }
@@ -144,20 +193,23 @@ p { margin: 0; }
 @media (max-width: 860px) {
   .site-nav { display: none; }
 }
-@media (max-width: 560px) {
-  .lang-switch { display: none; }
+@media (max-width: 420px) {
+  .lang-toggle-current { display: none; }
+  .lang-toggle { padding: 8px; }
 }
 
 /* ---------- hero ----------
    Deliberately a single visual world regardless of light/dark preference:
    a dark "monitor" screen, because that's what the product actually is —
-   a vitals readout for a conversation. The rest of the page still adapts
-   to the viewer's theme; only this panel stays fixed. */
+   a vitals readout for a conversation. Corner brackets + a live status
+   readout push it further from "dashboard hero gradient" toward an actual
+   instrument bezel. The rest of the page still adapts to the viewer's
+   theme; only this panel stays fixed. */
 .hero { padding: 56px 0 88px; }
 .hero-monitor {
   position: relative;
   background: radial-gradient(120% 140% at 15% 0%, #16203f 0%, #0a0e1c 62%);
-  border-radius: 24px;
+  border-radius: 20px;
   border: 1px solid rgba(255, 255, 255, 0.08);
   padding: 56px 40px;
   overflow: hidden;
@@ -172,10 +224,30 @@ p { margin: 0; }
   mask-image: radial-gradient(80% 90% at 20% 10%, black, transparent 75%);
   pointer-events: none;
 }
+.hero-corner {
+  position: absolute; width: 18px; height: 18px;
+  border: 2px solid rgba(255, 255, 255, 0.16);
+  pointer-events: none;
+}
+.hero-corner-tl { top: 16px; left: 16px; border-right: none; border-bottom: none; border-top-left-radius: 6px; }
+.hero-corner-br { bottom: 16px; right: 16px; border-left: none; border-top: none; border-bottom-right-radius: 6px; }
+.hero-live {
+  position: absolute; top: 20px; right: 24px;
+  display: flex; align-items: center; gap: 7px;
+  font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+  letter-spacing: 0.08em; color: var(--brand-teal); text-transform: uppercase;
+}
+.hero-live::before {
+  content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--brand-teal);
+  animation: hero-live-blink 1.8s ease-in-out infinite;
+}
+@keyframes hero-live-blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.25; } }
+@media (prefers-reduced-motion: reduce) { .hero-live::before { animation: none; } }
+
 .hero-trace { position: absolute; left: 0; right: 0; top: 8px; height: 32px; opacity: 0.85; }
-.hero-grid { position: relative; display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 56px; align-items: center; }
+.hero-grid { position: relative; display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 56px; align-items: center; margin-top: 12px; }
 .hero-copy h1 {
-  font-size: clamp(32px, 4.4vw, 48px); line-height: 1.14; margin-bottom: 18px; color: #f3f5fc;
+  font-size: clamp(30px, 4vw, 44px); line-height: 1.22; margin-bottom: 18px; color: #f3f5fc;
 }
 .hero-copy .eyebrow { color: var(--brand-teal); }
 .hero-subtitle { font-size: 17.5px; color: #a9b2c9; max-width: 48ch; margin-bottom: 30px; }
@@ -191,7 +263,7 @@ p { margin: 0; }
 .hero-visual { display: flex; flex-direction: column; align-items: center; gap: 14px; }
 .mock-panel {
   width: 100%; max-width: 300px; background: rgba(18, 23, 41, 0.85); color: #e8eaf4;
-  border-radius: 18px; padding: 20px 22px 22px;
+  border-radius: 16px; padding: 20px 22px 22px;
   border: 1px solid rgba(255,255,255,0.09);
   backdrop-filter: blur(6px);
 }
@@ -199,15 +271,15 @@ p { margin: 0; }
 .mock-brand { display: flex; align-items: center; gap: 6px; font-size: 12.5px; font-weight: 700; }
 .mock-strip { height: 34px; margin: 6px 0 14px; }
 .mock-grade-row { display: flex; align-items: center; gap: 10px; margin-bottom: 18px; }
-.mock-score { font-family: var(--font-mono); font-size: 34px; font-weight: 800; color: var(--moderate); font-variant-numeric: tabular-nums; }
+.mock-score { font-family: var(--font-mono); font-size: 34px; font-weight: 700; color: var(--moderate); font-variant-numeric: tabular-nums; }
 .mock-grade {
-  font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em;
+  font-family: var(--font-mono); font-size: 11.5px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
   color: var(--moderate); background: rgba(224, 168, 61, 0.16); padding: 4px 10px; border-radius: 999px;
 }
 .mock-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
 .mock-stats div { display: flex; flex-direction: column; gap: 4px; }
 .mock-stats span { font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.05em; color: #7c8ba0; }
-.mock-stats b { font-family: var(--font-mono); font-size: 14px; font-variant-numeric: tabular-nums; }
+.mock-stats b { font-family: var(--font-mono); font-size: 14px; font-weight: 500; font-variant-numeric: tabular-nums; }
 .hero-visual-note { font-size: 12.5px; color: #7c88a3; text-align: center; max-width: 26ch; }
 
 @media (max-width: 860px) {
@@ -258,70 +330,146 @@ p { margin: 0; }
 
 /* ---------- sections ---------- */
 .section { padding: 64px 0; }
-.section h2 { font-size: clamp(24px, 3vw, 32px); margin-bottom: 36px; }
+.section h2 { font-size: clamp(23px, 2.8vw, 30px); margin-bottom: 36px; }
 
 .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
-.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
 .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
 @media (max-width: 900px) { .grid-4 { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 640px) { .grid-4, .grid-3, .grid-2 { grid-template-columns: 1fr; } }
+@media (max-width: 640px) { .grid-4, .grid-2 { grid-template-columns: 1fr; } }
 
-.problem-card, .feature-card, .privacy-card, .roadmap-card {
-  background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 22px;
-  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+/* ---------- problem section: a log, not a card grid ----------
+   These four things genuinely happen in sequence as a conversation grows
+   (fade -> buried -> contradict -> no signal), so a vertical, escalating
+   log reads more honestly than four same-weight boxes — and the dot color
+   ramping from teal to red previews the score-band colors used later. */
+.problem-log {
+  border: 1px solid var(--line); border-radius: 14px; background: var(--surface);
+  overflow: hidden; box-shadow: var(--shadow);
 }
-.problem-card:hover, .feature-card:hover, .privacy-card:hover {
-  transform: translateY(-3px);
-  border-color: var(--brand-blue);
-  box-shadow: var(--shadow);
+.problem-row {
+  display: grid; grid-template-columns: 22px 1fr; gap: 18px;
+  padding: 22px 26px; border-bottom: 1px solid var(--line);
 }
-@media (prefers-reduced-motion: reduce) {
-  .problem-card, .feature-card, .privacy-card, .roadmap-card { transition: none; }
-  .problem-card:hover, .feature-card:hover, .privacy-card:hover { transform: none; }
+.problem-row:last-child { border-bottom: none; }
+.problem-row-marker { display: flex; justify-content: center; padding-top: 6px; }
+.problem-row-marker::before {
+  content: ""; width: 8px; height: 8px; border-radius: 50%;
+  background: var(--marker-color, var(--brand-teal));
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--marker-color, var(--brand-teal)) 16%, transparent);
 }
-.problem-card h3, .feature-card h3, .privacy-card h3, .roadmap-card h3 {
-  font-size: 16px; margin-bottom: 8px;
+.problem-row h3 { font-size: 16px; margin-bottom: 6px; }
+.problem-row p { font-size: 14px; color: var(--ink-muted); max-width: 60ch; }
+@media (max-width: 640px) { .problem-row { padding: 18px 20px; } }
+
+/* ---------- feature cards ---------- */
+.feature-card {
+  position: relative;
+  background: var(--surface); border: 1px solid var(--line); border-left: 3px solid var(--line);
+  border-radius: 10px; padding: 22px 22px 22px 20px;
+  transition: border-left-color 0.2s ease, box-shadow 0.2s ease;
 }
-.problem-card p, .feature-card p, .privacy-card p { font-size: 14px; color: var(--ink-muted); }
+.feature-card:hover {
+  border-left-color: var(--brand-teal);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--brand-teal) 30%, transparent), var(--shadow);
+}
+@media (prefers-reduced-motion: reduce) { .feature-card { transition: none; } }
+.feature-card h3 { font-size: 16px; margin-bottom: 8px; }
+.feature-card p { font-size: 14px; color: var(--ink-muted); }
 
 .tag {
-  display: inline-block; font-size: 11px; font-weight: 700; text-transform: uppercase;
-  letter-spacing: 0.05em; padding: 3px 9px; border-radius: 999px; margin-bottom: 12px;
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--font-mono); font-size: 10.5px; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.05em; padding: 3px 9px 3px 7px; border-radius: 999px; margin-bottom: 12px;
 }
+.tag::before { content: ""; width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
 .tag-live { background: var(--good-tint); color: var(--good); }
 .tag-soon { background: var(--surface-2); color: var(--ink-faint); }
-.feature-card-soon { opacity: 0.88; }
+.feature-card-soon { opacity: 0.82; }
 
-/* score bands */
-.score-bands { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+/* ---------- score gauge (replaces four disconnected cards) ----------
+   One continuous 0-100 scale with proportionally-sized zones — "Good"
+   really is half the scale and "High Risk" really is a narrow band, so
+   showing that proportion is more honest than four equal boxes, and it
+   directly pays off the heading "Read it at a glance". */
+.gauge { margin-bottom: 28px; }
+.gauge-track {
+  display: flex; height: 14px; border-radius: 999px; overflow: hidden;
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+.gauge-zone { height: 100%; }
+.gauge-zone.zone-good { background: var(--good); flex: 50; }
+.gauge-zone.zone-moderate { background: var(--moderate); flex: 20; }
+.gauge-zone.zone-high { background: var(--high); flex: 15; }
+.gauge-zone.zone-critical { background: var(--critical); flex: 15; }
+.gauge-scale {
+  display: flex; justify-content: space-between; font-family: var(--font-mono);
+  font-size: 11px; color: var(--ink-faint); margin-top: 8px;
+}
+
+.score-bands { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
 @media (max-width: 900px) { .score-bands { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 560px) { .score-bands { grid-template-columns: 1fr; } }
-.score-band {
-  border-radius: 14px; padding: 20px; border: 1px solid var(--line);
-  border-top: 4px solid transparent;
+.score-band { padding: 0; }
+.score-band-dot {
+  display: inline-block; width: 9px; height: 9px; border-radius: 50%;
+  background: var(--dot-color); margin-right: 8px;
 }
-.band-pulse { height: 30px; margin-bottom: 10px; }
-.band-good .pulse-path-base, .band-good .pulse-path-trace { stroke: var(--good); }
-.band-moderate .pulse-path-base, .band-moderate .pulse-path-trace { stroke: var(--moderate); }
-.band-high .pulse-path-base, .band-high .pulse-path-trace { stroke: var(--high); }
-.band-critical .pulse-path-base, .band-critical .pulse-path-trace { stroke: var(--critical); }
-.score-band .band-range { display: block; font-family: var(--font-mono); font-size: 13px; color: var(--ink-faint); margin-bottom: 6px; }
-.score-band .band-label { display: block; font-weight: 800; font-size: 15px; margin-bottom: 8px; }
+.score-band .band-range {
+  display: inline; font-family: var(--font-mono); font-size: 12.5px; color: var(--ink-faint);
+}
+.score-band .band-label { display: block; font-weight: 700; font-size: 15px; margin: 6px 0 6px; }
 .score-band p { font-size: 13.5px; color: var(--ink-muted); }
-.band-good { border-top-color: var(--good); background: var(--good-tint); }
-.band-good .band-label { color: var(--good); }
-.band-moderate { border-top-color: var(--moderate); background: var(--moderate-tint); }
+.band-good .band-label, .band-good .score-band-dot { color: var(--good); }
+.band-good .score-band-dot { background: var(--good); }
 .band-moderate .band-label { color: var(--moderate); }
-.band-high { border-top-color: var(--high); background: var(--high-tint); }
+.band-moderate .score-band-dot { background: var(--moderate); }
 .band-high .band-label { color: var(--high); }
-.band-critical { border-top-color: var(--critical); background: var(--critical-tint); }
+.band-high .score-band-dot { background: var(--high); }
 .band-critical .band-label { color: var(--critical); }
+.band-critical .score-band-dot { background: var(--critical); }
 
-/* roadmap */
-.roadmap-card ul { margin: 0; padding-left: 20px; }
-.roadmap-card li { font-size: 14px; color: var(--ink-muted); margin-bottom: 8px; }
-.roadmap-now { border-color: var(--brand-blue); background: var(--surface-2); }
-.roadmap-now h3 { color: var(--brand-blue); }
+/* ---------- privacy: a spec list, not a third card grid ---------- */
+.privacy-list { border-top: 1px solid var(--line); }
+.privacy-card {
+  padding: 24px 0; border-bottom: 1px solid var(--line);
+  display: grid; grid-template-columns: 26px 1fr; column-gap: 16px;
+}
+.privacy-card::before {
+  content: ""; grid-column: 1; grid-row: 1;
+  width: 8px; height: 8px; margin-top: 6px; border-radius: 2px;
+  background: var(--brand-teal); transform: rotate(45deg);
+}
+/* Explicit placement, not auto-flow: without this, h3 lands in column 2 but
+   p — the grid's third item — wraps into column 1 (26px wide) instead of
+   flowing under h3, which forces Korean/Chinese text into a single-character
+   vertical column. */
+.privacy-card h3 { grid-column: 2; grid-row: 1; font-size: 16px; margin-bottom: 6px; }
+.privacy-card p { grid-column: 2; grid-row: 2; font-size: 14px; color: var(--ink-muted); max-width: 62ch; }
+@media (min-width: 641px) {
+  .privacy-list { display: grid; grid-template-columns: repeat(3, 1fr); border-top: none; }
+  .privacy-card { border-bottom: none; border-top: 1px solid var(--line); padding: 24px 20px 0 0; }
+  .privacy-card:not(:first-child) { border-left: 1px solid var(--line); padding-left: 24px; }
+}
+
+/* ---------- roadmap: a checklist, not a tinted card ---------- */
+.roadmap-card { padding: 0; }
+.roadmap-card h3 {
+  font-family: var(--font-mono); font-size: 13px; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.04em; color: var(--ink-faint); margin-bottom: 14px;
+}
+.roadmap-now h3 { color: var(--good); }
+.roadmap-card ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.roadmap-card li {
+  display: flex; align-items: flex-start; gap: 10px;
+  font-size: 14.5px; color: var(--ink); padding-bottom: 10px; border-bottom: 1px solid var(--line);
+}
+.roadmap-card li:last-child { border-bottom: none; padding-bottom: 0; }
+.roadmap-card li::before {
+  content: ""; flex-shrink: 0; width: 15px; height: 15px; border-radius: 4px; margin-top: 2px;
+}
+.roadmap-now li::before { background: var(--good-tint); box-shadow: inset 0 0 0 1.5px var(--good); }
+.roadmap-card:not(.roadmap-now) li { color: var(--ink-muted); }
+.roadmap-card:not(.roadmap-now) li::before { box-shadow: inset 0 0 0 1.5px var(--line); }
 
 /* cta band */
 .cta-band { background: var(--surface-2); }
