@@ -29,6 +29,17 @@
       }
     });
 
+    // A few strings (e.g. the hero headline) wrap one phrase in a gradient
+    // span for emphasis. Those keys live in the same dictionaries but are
+    // applied as markup, not plain text — the content is ours, never user
+    // input, so innerHTML here carries no injection risk.
+    document.querySelectorAll("[data-i18n-html]").forEach(function (el) {
+      var key = el.getAttribute("data-i18n-html");
+      if (Object.prototype.hasOwnProperty.call(dict, key)) {
+        el.innerHTML = dict[key];
+      }
+    });
+
     document.documentElement.lang = lang;
 
     document.querySelectorAll(".lang-switch button").forEach(function (btn) {
@@ -43,6 +54,34 @@
     }
   }
 
+  var REDUCE_MOTION = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function initScrollReveal() {
+    var targets = document.querySelectorAll("[data-reveal]");
+    if (REDUCE_MOTION || !("IntersectionObserver" in window)) {
+      targets.forEach(function (el) {
+        el.classList.add("is-visible");
+      });
+      return;
+    }
+
+    var observer = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.15, rootMargin: "0px 0px -40px 0px" },
+    );
+
+    targets.forEach(function (el) {
+      observer.observe(el);
+    });
+  }
+
   document.addEventListener("DOMContentLoaded", function () {
     applyLang(detectDefaultLang());
 
@@ -51,5 +90,7 @@
         applyLang(btn.getAttribute("data-lang"));
       });
     });
+
+    initScrollReveal();
   });
 })();

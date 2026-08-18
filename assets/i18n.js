@@ -12,7 +12,7 @@ window.CV_I18N = {
     "nav.cta": "Get the extension",
 
     "hero.eyebrow": "Chrome Extension",
-    "hero.title": "Know when your AI conversation needs a fresh start.",
+    "hero.title": "Know when your AI conversation needs a <span class=\"grad-text\">fresh start</span>.",
     "hero.subtitle": "ContextVitals reads the ChatGPT or Claude conversation you're already in and estimates how much context pressure it's under — before the model starts losing track.",
     "hero.ctaPrimary": "Download for Chrome",
     "hero.ctaSecondary": "View on GitHub",
@@ -100,7 +100,7 @@ window.CV_I18N = {
     "nav.cta": "확장 프로그램 받기",
 
     "hero.eyebrow": "크롬 확장 프로그램",
-    "hero.title": "AI와의 대화, 지치기 전에 알려드립니다.",
+    "hero.title": "AI와의 대화, <span class=\"grad-text\">지치기 전에</span> 알려드립니다.",
     "hero.subtitle": "ContextVitals는 지금 하고 계신 ChatGPT·Claude 대화를 읽어서, 모델이 맥락을 놓치기 전에 컨텍스트가 얼마나 압박받고 있는지 추정해서 보여줍니다.",
     "hero.ctaPrimary": "크롬용 다운로드",
     "hero.ctaSecondary": "GitHub에서 보기",
@@ -188,7 +188,7 @@ window.CV_I18N = {
     "nav.cta": "获取扩展程序",
 
     "hero.eyebrow": "Chrome 扩展程序",
-    "hero.title": "在对话失控之前，先知道该重新开始了。",
+    "hero.title": "在对话失控之前，先知道该<span class=\"grad-text\">重新开始</span>了。",
     "hero.subtitle": "ContextVitals 会读取你正在进行的 ChatGPT 或 Claude 对话，在模型开始丢失上下文之前，估算当前的上下文压力有多大。",
     "hero.ctaPrimary": "下载 Chrome 版",
     "hero.ctaSecondary": "在 GitHub 上查看",

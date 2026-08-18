@@ -18,6 +18,7 @@
     <a class="brand" href="#top">
       <img src="assets/logo-nav.png" alt="" width="28" height="28" />
       <span>ContextVitals</span>
+      <span class="brand-pulse" data-pulse="brand" data-pulse-height="14" aria-hidden="true"></span>
     </a>
 
     <nav class="site-nav" aria-label="Primary">
@@ -41,17 +42,20 @@
 <main id="main">
 
   <section class="hero" id="top">
-    <div class="wrap hero-grid">
+    <div class="wrap">
+    <div class="hero-monitor">
+      <div class="hero-trace" data-pulse="hero" data-pulse-height="32" aria-hidden="true"></div>
+      <div class="hero-grid">
       <div class="hero-copy">
         <p class="eyebrow" data-i18n="hero.eyebrow">Chrome Extension</p>
-        <h1 data-i18n="hero.title">Know when your AI conversation needs a fresh start.</h1>
+        <h1 data-i18n-html="hero.title">Know when your AI conversation needs a <span class="grad-text">fresh start</span>.</h1>
         <p class="hero-subtitle" data-i18n="hero.subtitle">
           ContextVitals reads the ChatGPT or Claude conversation you're already in and estimates how much
           context pressure it's under — before the model starts losing track.
         </p>
         <div class="hero-ctas">
           <a class="btn btn-primary" href="https://github.com/ContextVitals-labs/ContextVitals-Extension/releases/latest" data-i18n="hero.ctaPrimary">Download for Chrome</a>
-          <a class="btn btn-ghost" href="https://github.com/ContextVitals-labs/ContextVitals-Extension" data-i18n="hero.ctaSecondary">View on GitHub</a>
+          <a class="btn btn-ghost on-dark" href="https://github.com/ContextVitals-labs/ContextVitals-Extension" data-i18n="hero.ctaSecondary">View on GitHub</a>
         </div>
       </div>
 
@@ -60,6 +64,7 @@
           <div class="mock-panel-header">
             <span class="mock-brand"><img src="assets/logo-nav.png" alt="" width="16" height="16" /> ContextVitals</span>
           </div>
+          <div class="mock-strip" data-pulse="band-moderate" data-pulse-height="34"></div>
           <div class="mock-grade-row">
             <span class="mock-score">72</span>
             <span class="mock-grade" data-i18n="hero.mockGrade">Moderate</span>
@@ -72,14 +77,18 @@
         </div>
         <p class="hero-visual-note" data-i18n="hero.mockNote">Every number is labeled as an estimate — always.</p>
       </div>
+      </div>
+    </div>
     </div>
   </section>
+
+  <div class="wrap divider"><div class="divider-trace" data-pulse="divider" data-pulse-height="28" aria-hidden="true"></div></div>
 
   <section class="section problem">
     <div class="wrap">
       <p class="eyebrow" data-i18n="problem.eyebrow">The problem</p>
       <h2 data-i18n="problem.title">Long conversations quietly degrade.</h2>
-      <div class="grid-4">
+      <div class="grid-4" data-reveal="stagger">
         <div class="problem-card">
           <h3 data-i18n="problem.item1.title">Early instructions fade</h3>
           <p data-i18n="problem.item1.desc">The rules you set at the start stop being followed as the conversation grows.</p>
@@ -100,11 +109,13 @@
     </div>
   </section>
 
+  <div class="wrap divider"><div class="divider-trace" data-pulse="divider" data-pulse-height="28" aria-hidden="true"></div></div>
+
   <section class="section" id="features">
     <div class="wrap">
       <p class="eyebrow" data-i18n="features.eyebrow">How it works</p>
       <h2 data-i18n="features.title">One badge, four jobs</h2>
-      <div class="grid-4">
+      <div class="grid-4" data-reveal="stagger">
         <div class="feature-card">
           <span class="tag tag-live" data-i18n="features.tagLive">Live in v0.1</span>
           <h3 data-i18n="features.f1.title">Context Meter</h3>
@@ -129,27 +140,33 @@
     </div>
   </section>
 
+  <div class="wrap divider"><div class="divider-trace" data-pulse="divider" data-pulse-height="28" aria-hidden="true"></div></div>
+
   <section class="section score-section">
     <div class="wrap">
       <p class="eyebrow" data-i18n="score.eyebrow">The score</p>
       <h2 data-i18n="score.title">Read it at a glance</h2>
-      <div class="score-bands">
+      <div class="score-bands" data-reveal="stagger">
         <div class="score-band band-good">
+          <div class="band-pulse" data-pulse="band-good" data-pulse-height="30" aria-hidden="true"></div>
           <span class="band-range" data-i18n="score.band1.range">0–50</span>
           <span class="band-label" data-i18n="score.band1.label">Good</span>
           <p data-i18n="score.band1.desc">Plenty of room left.</p>
         </div>
         <div class="score-band band-moderate">
+          <div class="band-pulse" data-pulse="band-moderate" data-pulse-height="30" aria-hidden="true"></div>
           <span class="band-range" data-i18n="score.band2.range">51–70</span>
           <span class="band-label" data-i18n="score.band2.label">Moderate</span>
           <p data-i18n="score.band2.desc">Getting long — worth keeping an eye on.</p>
         </div>
         <div class="score-band band-high">
+          <div class="band-pulse" data-pulse="band-high" data-pulse-height="30" aria-hidden="true"></div>
           <span class="band-range" data-i18n="score.band3.range">71–85</span>
           <span class="band-label" data-i18n="score.band3.label">High Risk</span>
           <p data-i18n="score.band3.desc">Older instructions and context are under real pressure.</p>
         </div>
         <div class="score-band band-critical">
+          <div class="band-pulse" data-pulse="band-critical" data-pulse-height="30" aria-hidden="true"></div>
           <span class="band-range" data-i18n="score.band4.range">86–100</span>
           <span class="band-label" data-i18n="score.band4.label">New Session Recommended</span>
           <p data-i18n="score.band4.desc">Time to start fresh and carry the important parts over.</p>
@@ -158,11 +175,13 @@
     </div>
   </section>
 
+  <div class="wrap divider"><div class="divider-trace" data-pulse="divider" data-pulse-height="28" aria-hidden="true"></div></div>
+
   <section class="section" id="privacy">
     <div class="wrap">
       <p class="eyebrow" data-i18n="privacy.eyebrow">Privacy</p>
       <h2 data-i18n="privacy.title">Built to never see your conversation</h2>
-      <div class="grid-3">
+      <div class="grid-3" data-reveal="stagger">
         <div class="privacy-card">
           <h3 data-i18n="privacy.p1.title">Everything runs on your device</h3>
           <p data-i18n="privacy.p1.desc">Parsing, scoring, and estimates all happen locally in the browser — nothing about your conversation is sent anywhere.</p>
@@ -179,11 +198,13 @@
     </div>
   </section>
 
+  <div class="wrap divider"><div class="divider-trace" data-pulse="divider" data-pulse-height="28" aria-hidden="true"></div></div>
+
   <section class="section" id="roadmap">
     <div class="wrap">
       <p class="eyebrow" data-i18n="roadmap.eyebrow">Status</p>
       <h2 data-i18n="roadmap.title">Where it stands today</h2>
-      <div class="grid-2 roadmap-grid">
+      <div class="grid-2 roadmap-grid" data-reveal="stagger">
         <div class="roadmap-card roadmap-now">
           <h3 data-i18n="roadmap.nowTitle">Available now — v0.1</h3>
           <ul>
@@ -232,6 +253,7 @@
 </footer>
 
 <script src="assets/i18n.js"></script>
+<script src="assets/pulse.js"></script>
 <script src="assets/main.js"></script>
 </body>
 </html>
