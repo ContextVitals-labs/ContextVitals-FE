@@ -3,6 +3,7 @@
 
   var SUPPORTED = ["en", "ko", "zh"];
   var STORAGE_KEY = "cv-lang";
+  var LANG_LABELS = { en: "EN", ko: "KO", zh: "中文" };
 
   function detectDefaultLang() {
     var stored = null;
@@ -42,9 +43,12 @@
 
     document.documentElement.lang = lang;
 
-    document.querySelectorAll(".lang-switch button").forEach(function (btn) {
+    var toggleLabel = document.querySelector(".lang-toggle-current");
+    if (toggleLabel) toggleLabel.textContent = LANG_LABELS[lang] || lang.toUpperCase();
+
+    document.querySelectorAll(".lang-menu button[data-lang]").forEach(function (btn) {
       var isActive = btn.getAttribute("data-lang") === lang;
-      btn.setAttribute("aria-pressed", isActive ? "true" : "false");
+      btn.setAttribute("aria-checked", isActive ? "true" : "false");
     });
 
     try {
@@ -82,15 +86,46 @@
     });
   }
 
-  document.addEventListener("DOMContentLoaded", function () {
-    applyLang(detectDefaultLang());
+  function initLangToggle() {
+    var wrapper = document.querySelector(".lang-switch");
+    var toggle = document.querySelector(".lang-toggle");
+    var menu = document.querySelector(".lang-menu");
+    if (!wrapper || !toggle || !menu) return;
 
-    document.querySelectorAll(".lang-switch button").forEach(function (btn) {
+    function openMenu() {
+      menu.hidden = false;
+      toggle.setAttribute("aria-expanded", "true");
+    }
+    function closeMenu(focusToggle) {
+      menu.hidden = true;
+      toggle.setAttribute("aria-expanded", "false");
+      if (focusToggle) toggle.focus();
+    }
+
+    toggle.addEventListener("click", function () {
+      if (menu.hidden) openMenu();
+      else closeMenu(false);
+    });
+
+    menu.querySelectorAll("button[data-lang]").forEach(function (btn) {
       btn.addEventListener("click", function () {
         applyLang(btn.getAttribute("data-lang"));
+        closeMenu(true);
       });
     });
 
+    document.addEventListener("click", function (event) {
+      if (!menu.hidden && !wrapper.contains(event.target)) closeMenu(false);
+    });
+
+    wrapper.addEventListener("keydown", function (event) {
+      if (event.key === "Escape" && !menu.hidden) closeMenu(true);
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    applyLang(detectDefaultLang());
+    initLangToggle();
     initScrollReveal();
   });
 })();
