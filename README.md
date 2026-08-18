@@ -17,7 +17,7 @@ your ChatGPT or Claude conversation and estimates how much "context pressure"
 it's under, so you know when it's time to start a new chat (and what to carry
 over when you do).
 
-**Live site:** not deployed yet — see [Deployment](#deployment) below.
+**Live site:** https://contextvitals.pages.dev
 **Get the extension:** https://github.com/ContextVitals-labs/ContextVitals-Extension
 
 The page is available in **English, Korean, and Chinese** — use the language
@@ -56,15 +56,19 @@ with any static file server (e.g. `npx serve .`).
 
 ## Deployment
 
-This repo is **private**, and GitHub Pages for private repositories requires
-a paid GitHub plan (Team/Enterprise) — the free plan only serves Pages from
-public repos. Nothing is deployed yet. Options once you're ready:
+Hosted on **Cloudflare Pages** (project: `contextvitals`) at
+https://contextvitals.pages.dev. This is currently a direct-upload deploy,
+not connected to GitHub yet — pushing to `main` does **not** auto-deploy.
 
-- Make this repo public and turn on Pages (Settings → Pages → deploy from
-  `main` / `/`) — free, but the source becomes public too.
-- Deploy to Vercel/Netlify/Cloudflare Pages instead — all three support
-  private-repo deploys on their free tiers.
-- Upgrade the GitHub org plan and use Pages as-is.
+To ship a new deploy after making changes:
+
+```
+npx wrangler pages deploy . --project-name=contextvitals --branch=main
+```
+
+Connecting the Cloudflare Pages project to this GitHub repo (Cloudflare
+dashboard → Pages → contextvitals → Settings → Builds) would make pushes to
+`main` deploy automatically and is worth doing once the site stabilizes.
 
 Commit, branch, and translation conventions are documented in
 [`docs/CONVENTIONS.md`](docs/CONVENTIONS.md) — read it before adding new copy,
