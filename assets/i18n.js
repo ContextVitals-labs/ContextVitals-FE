@@ -72,16 +72,11 @@ window.CV_I18N = {
     "privacy.p3.desc": "ContextVitals can't see a model's real internal context state, so it never claims to — only ever estimates.",
 
     "roadmap.eyebrow": "Status",
-    "roadmap.title": "Where it stands today",
-    "roadmap.nowTitle": "Available now — v0.2",
+    "roadmap.title": "What's included",
     "roadmap.now1": "ChatGPT and Claude support",
     "roadmap.now2": "Message count and token estimates",
     "roadmap.now3": "Full Context Health score — token pressure, instruction decay, topic drift, contradiction risk, complexity",
     "roadmap.now4": "English, Korean, and Chinese UI",
-    "roadmap.nextTitle": "Coming next",
-    "roadmap.next1": "New-session alerts and Context Handoff",
-    "roadmap.next2": "Smart Mode (bring your own API key for higher-accuracy analysis)",
-    "roadmap.next3": "Gemini and Perplexity support",
 
     "cta.title": "Try it on your next long conversation.",
     "cta.button": "Download for Chrome",
@@ -97,7 +92,7 @@ window.CV_I18N = {
   ko: {
     "nav.features": "작동 방식",
     "nav.privacy": "프라이버시",
-    "nav.roadmap": "로드맵",
+    "nav.roadmap": "제공 기능",
     "nav.github": "GitHub",
     "nav.cta": "확장 프로그램 받기",
 
@@ -162,16 +157,11 @@ window.CV_I18N = {
     "privacy.p3.desc": "ContextVitals는 모델의 실제 내부 컨텍스트 상태를 볼 수 없기 때문에, 확정적으로 말하지 않고 항상 추정치임을 명시합니다.",
 
     "roadmap.eyebrow": "현황",
-    "roadmap.title": "지금까지 진행 상황",
-    "roadmap.nowTitle": "지금 사용 가능 — v0.2",
+    "roadmap.title": "지금 제공되는 기능",
     "roadmap.now1": "ChatGPT·Claude 지원",
     "roadmap.now2": "메시지 수·토큰 추정",
     "roadmap.now3": "완전한 Context Health 점수 — 토큰 압박도, 지시사항 유실, 주제 이탈, 모순 가능성, 복잡도",
     "roadmap.now4": "한국어·영어·중국어 UI",
-    "roadmap.nextTitle": "다음 단계",
-    "roadmap.next1": "새 세션 알림·Context Handoff",
-    "roadmap.next2": "Smart Mode (직접 API 키를 입력해 더 정확한 분석)",
-    "roadmap.next3": "Gemini·Perplexity 지원",
 
     "cta.title": "다음 긴 대화에서 바로 써보세요.",
     "cta.button": "크롬용 다운로드",
@@ -187,7 +177,7 @@ window.CV_I18N = {
   zh: {
     "nav.features": "工作原理",
     "nav.privacy": "隐私",
-    "nav.roadmap": "路线图",
+    "nav.roadmap": "已支持功能",
     "nav.github": "GitHub",
     "nav.cta": "获取扩展程序",
 
@@ -252,16 +242,11 @@ window.CV_I18N = {
     "privacy.p3.desc": "ContextVitals 无法看到模型真实的内部上下文状态，所以从不做确定性表述——一切都只是估算。",
 
     "roadmap.eyebrow": "现状",
-    "roadmap.title": "目前进展",
-    "roadmap.nowTitle": "现已可用 — v0.2",
+    "roadmap.title": "目前已支持的功能",
     "roadmap.now1": "支持 ChatGPT 和 Claude",
     "roadmap.now2": "消息数与 Token 估算",
     "roadmap.now3": "完整的 Context Health 评分 — Token 压力、指令衰减、话题漂移、矛盾风险、复杂度",
     "roadmap.now4": "支持中文、英文、韩文界面",
-    "roadmap.nextTitle": "下一步",
-    "roadmap.next1": "新会话提醒与 Context Handoff",
-    "roadmap.next2": "Smart Mode（使用自己的 API 密钥获得更精确的分析）",
-    "roadmap.next3": "支持 Gemini 与 Perplexity",
 
     "cta.title": "在你下一次长对话中试试看。",
     "cta.button": "下载 Chrome 版",
